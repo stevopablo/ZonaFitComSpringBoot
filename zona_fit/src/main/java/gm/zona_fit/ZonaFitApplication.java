@@ -12,7 +12,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.util.List;
 import java.util.Scanner;
 
+
+// descomenta para usar o projeto no terminal
+// comentar no /ZonaFitSwing
 //@SpringBootApplication
+
+
 public class ZonaFitApplication implements CommandLineRunner {
 	@Autowired
 	private IClienteServicos clienteServicos;
