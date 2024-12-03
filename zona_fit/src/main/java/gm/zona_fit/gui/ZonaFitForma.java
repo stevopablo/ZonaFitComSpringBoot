@@ -11,7 +11,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-@Component
+//@Component
+//descomente para usar
 public class ZonaFitForma extends JFrame{
     private JPanel panelPrincipal;
     private JTable clientesTabla;

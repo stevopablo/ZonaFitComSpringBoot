@@ -9,9 +9,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import javax.swing.*;
 
 //comenta aqui
-@SpringBootApplication
-
-
+//@SpringBootApplication
 public class ZonaFitSwing {
     public static void main(String[] args) {
 //        modo escuro

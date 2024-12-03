@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<h:html xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+  <h:head>
+    <title>Zona Fit (GYM)</title>
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+  </h:head>
+  <h:body>
+    <div class="card">
+      <h:form id="forma-clientes">
+        <p:growl id="mensagem" showDetails="true"/>
+        <!-- Menubar -->
+        <div class="card">
+          <p:menubar>
+            <p:menuitem value="Início" icon="pi pi-fw pi-user"
+                        update=":forma-clientes:clientes-tabela"
+                        actionListener="#{indexControlador.carregarDados}"/>
+            <p:menuitem value="Novo Cliente" icon="pi pi-fw pi-plus"
+                        actionListener="#{indexControlador.adicionarCliente}"
+                        update=":forma-modal:cliente-janela"
+                        oncomplete="PF('janelaModalCliente').show()"/>
+          </p:menubar>
+        </div>
+        <!-- DataTable   -->
+        <div class="card">
+          <p:dataTable value="#{indexControlador.clientes}" var="cliente"
+                       id="clientes-tabela" widgetVar="clientesTabela">
+            <f:facet name="header">
+              <div class="flex justify-content-center flex-wrap
+                                    card-container yellow-container">
+                <div class="flex align-items-center
+                                justify-content-center
+                                w-20rem h-4rem bg-yellow-500 font-bold
+                                text-gray-900 border-round m-2">
+                  <h3>Zona Fit (GYM)</h3>
+                </div>
+              </div>
+            </f:facet>
+
+            <p:column headerText="Id">
+              <h:outputText value="#{cliente.id}"/>
+            </p:column>
+
+            <p:column headerText="Nome">
+              <h:outputText value="#{cliente.nome}"/>
+            </p:column>
+
+            <p:column headerText="Apelido">
+              <h:outputText value="#{cliente.apelido}"/>
+            </p:column>
+
+            <p:column headerText="Membro">
+              <h:outputText value="#{cliente.membro}"/>
+            </p:column>
+
+            <p:column>
+              <p:commandButton value="Editar" icon="pi pi-pencil"
+                               update=":forma-modal:cliente-janela"
+                               process="@this"
+                               oncomplete="PF('janelaModalCliente').show()"
+                               class="ui-button-primary"
+                               style="margin-right: .5rem">
+                <f:setPropertyActionListener
+                        value="#{cliente}"
+                        target="#{indexControlador.clienteSelecionado}"/>
+                <p:resetInput target=":forma-modal:cliente-janela"/>
+              </p:commandButton>
+
+              <p:commandButton value="Excluir" class="ui-button-danger"
+                               icon="pi pi-trash"
+                               process="@this"
+                               oncomplete="PF('excluirClienteJanela').show()">
+                <f:setPropertyActionListener
+                        value="#{cliente}"
+                        target="#{indexControlador.clienteSelecionado}"/>
+              </p:commandButton>
+            </p:column>
+
+          </p:dataTable>
+        </div>
+      </h:form>
+      <h:form id="forma-modal">
+        <p:dialog header="Detalhes do Cliente" showEffect="fade"
+                  modal="true" widgetVar="janelaModalCliente"
+                  responsive="true">
+          <p:outputPanel id="cliente-janela" class="ui-fluid">
+            <div class="field">
+              <p:outputLabel for="nome">Nome</p:outputLabel>
+              <p:inputText id="nome"
+                           value="#{indexControlador.clienteSelecionado.nome}"
+                           required="true"/>
+            </div>
+            <div class="field">
+              <p:outputLabel for="apelido">Apelido</p:outputLabel>
+              <p:inputText id="apelido"
+                           value="#{indexControlador.clienteSelecionado.apelido}"/>
+            </div>
+            <div class="field">
+              <p:outputLabel for="membrosia">Membresia</p:outputLabel>
+              <p:inputNumber id="membrosia"
+                             value="#{indexControlador.clienteSelecionado.membrosia}"
+                             required="true"/>
+            </div>
+          </p:outputPanel>
+          <f:facet name="footer">
+            <p:commandButton value="Salvar" icon="pi pi-check"
+                             process="cliente-janela @this"
+                             actionListener="#{indexControlador.salvarCliente}"/>
+            <p:commandButton value="Cancelar" icon="pi pi-times"
+                             onclick="PF('janelaModalCliente').hide()"
+                             class="ui-button-secondary" type="button"/>
+          </f:facet>
+        </p:dialog>
+        <p:confirmDialog widgetVar="excluirClienteJanela"
+                         showEffect="fade" width="300"
+                         message="Excluir o cliente?"
+                         header="Confirmar" severity="warn">
+          <p:commandButton value="Sim" icon="pi pi-check"
+                           process="@this"
+                           actionListener="#{indexControlador.excluirCliente}"
+                           oncomplete="PF('excluirClienteJanela').hide()"/>
+          <p:commandButton value="Não" type="button"
+                           styleClass="ui-button-secondary"
+                           icon="pi pi-times"
+                           onclick="PF('excluirClienteJanela').hide()"/>
+        </p:confirmDialog>
+      </h:form>
+    </div>
+  </h:body>
+</h:html>
